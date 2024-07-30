@@ -6,7 +6,8 @@ import { useEffect } from 'react'
 import Pagination from './Pagination';
 
 
-function Movies() {
+// eslint-disable-next-line react/prop-types
+function Movies({handleAddWatchList, handleRemoveFromWatchList, watchlist}) {
 
   const [movies, setMovies] = useState([]);
   const [pageNo, setPageNo] = useState(1);
@@ -28,6 +29,7 @@ function Movies() {
     axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=f566df1f6fd1988fc7a8243f61a68f20&language=en-US&page=${pageNo}%27%20`)
     .then((res) => {
       setMovies(res.data.results);
+      console.log(res.data.results);
     });
     }, [pageNo])
 
@@ -38,8 +40,9 @@ function Movies() {
          Trending movies
        </div>
        <div className="flex flex-row flex-wrap justify-around gap-8">
-            {movies.map((movieObj, index)=>{
-              return <MovieCard key={index} poster_path={movieObj.poster_path} name={movieObj.original_title}/>
+            {movies.map((movieObj)=>{
+              return <MovieCard key={movieObj.id} movieObj={movieObj} poster_path={movieObj.poster_path} name={movieObj.original_title} handleAddWatchList={handleAddWatchList}
+              handleRemoveFromWatchList={handleRemoveFromWatchList} watchlist={watchlist}/>
             })}
        </div>
 
